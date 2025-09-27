@@ -20,7 +20,7 @@ Este proyecto es un servidor API desarrollado en Flask que permite el registro d
 1. Asegúrate de tener Python instalado.
 2. Instala las dependencias:
    ```bash
-   pip install flask
+   pip install -r requirements.txt
    ```
 
 ## Ejecución
@@ -31,6 +31,25 @@ Este proyecto es un servidor API desarrollado en Flask que permite el registro d
    python servidor.py
    ```
 3. El servidor correrá en `http://127.0.0.1:5000/` por defecto.
+
+## Pruebas
+
+El proyecto incluye una suite de pruebas automatizadas usando pytest.
+
+1. Instala pytest si no está incluido:
+   ```bash
+   pip install pytest
+   ```
+
+2. Ejecuta las pruebas:
+   ```bash
+   pytest test_servidor.py
+   ```
+
+Las pruebas cubren:
+- Registro de usuarios (éxito, duplicado, datos faltantes)
+- Inicio de sesión (éxito, fallo, datos faltantes)
+- Endpoints GET para tareas e index
 
 ## Endpoints
 
