@@ -123,36 +123,6 @@ Ejemplos con curl:
 - Página raíz:
   Abre en navegador: `http://127.0.0.1:5000/`
 
-## Capturas de Pantalla
 
-Para documentar las pruebas exitosas, toma capturas de pantalla de:
-
-- Respuesta exitosa de registro en Postman.
-- Respuesta exitosa de login en Postman.
-- Página HTML renderizada en GET /tareas en el navegador.
-- Página en GET / en el navegador.
-
-Incluye estas capturas en el repositorio o en la documentación.
-
-## Entrega en Github
-
-1. Inicializa un repositorio Git en la carpeta PFO2:
-   ```bash
-   cd PFO2
-   git init
-   git add .
-   git commit -m "Initial commit"
-   ```
-
-2. Crea un repositorio en Github y sube el código:
-   ```bash
-   git remote add origin https://github.com/tuusuario/tu-repo.git
-   git push -u origin main
-   ```
-
-3. Para Github Pages (para la página estática):
-   - Crea un archivo `index.html` en la raíz del repo con el contenido HTML del endpoint GET / (copia el HTML devuelto por el servidor).
-   - En Github, ve a Settings > Pages, selecciona "Deploy from a branch" y elige la rama main, folder root.
-   - La página estará disponible en https://tuusuario.github.io/tu-repo/
 
 Nota: Github Pages aloja contenido estático; la API Flask debe ejecutarse localmente o en un servidor compatible con Python.
