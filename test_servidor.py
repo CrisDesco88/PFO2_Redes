@@ -1,14 +1,18 @@
 import pytest
+import os
 from servidor import app, init_db
 
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
-    app.config['DATABASE'] = ':memory:'
+    app.config['DATABASE'] = 'test.db'
     with app.test_client() as client:
         with app.app_context():
-            init_db()  # Crea la tabla en memoria
+            init_db()  # Crea la tabla
         yield client
+    # Limpiar DB de prueba
+    if os.path.exists('test.db'):
+        os.remove('test.db')
 
 def test_registro_exitoso(client):
     response = client.post('/registro', json={'usuario': 'testuser', 'contraseña': 'testpass'})
