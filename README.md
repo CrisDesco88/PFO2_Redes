@@ -126,3 +126,47 @@ Ejemplos con curl:
 
 
 Nota: Github Pages aloja contenido estático; la API Flask debe ejecutarse localmente o en un servidor compatible con Python.
+
+
+## ¿Por qué hashear contraseñas? 🔐
+
+Hashear contraseñas es una práctica **esencial de seguridad** en el desarrollo de aplicaciones que manejan autenticación de usuarios. A continuación, las razones principales:
+
+### 1. **Protección contra Brechas de Seguridad** 🛡️
+   - Si un atacante accede a la base de datos, las contraseñas hasheadas **no se pueden leer directamente**. Un hash es una representación irreversible de la contraseña (ej. `pbkdf2:sha256:260000$...` generado por Werkzeug).
+   - Sin hashear, si alguien roba la DB, tendría todas las contraseñas en texto plano y podría usarlas en otros sitios (**ataque de credential stuffing**).
+
+### 2. **Función de Un Solo Sentido** 🔒
+   - Los algoritmos de hash (como SHA-256 o PBKDF2) son **unidireccionales**: conviertes una contraseña en hash, pero no al revés. Durante el login, se hashea la entrada y se compara con el almacenado.
+   - Previene que incluso administradores vean las contraseñas reales.
+
+### 3. **Prevención de Ataques por Fuerza Bruta y Rainbow Tables** ⚡
+   - Hashes con **"salt"** (valor aleatorio) dificultan ataques precomputados. `werkzeug.security.generate_password_hash` incluye salt automáticamente.
+   - Ataques como rainbow tables (tablas precomputadas) se vuelven ineficientes.
+
+### 4. **Cumplimiento con Estándares de Seguridad** 📜
+   - Es un estándar en la industria (OWASP, NIST). No almacenar contraseñas en texto plano es **inseguro** y puede violar leyes como GDPR o leyes de protección de datos.
+
+## Ventajas de Usar SQLite en Este Proyecto 💾
+
+SQLite es una **excelente elección** para este proyecto de servidor API Flask pequeño. Sus ventajas incluyen:
+
+### 1. **Simplicidad y Facilidad de Uso** 🛠️
+   - **No requiere servidor** separado (como MySQL o PostgreSQL). Es un archivo único (`.db`) que se crea automáticamente.
+   - **Zero configuración**: solo `import sqlite3` en Python. Ideal para prototipos o proyectos pequeños.
+
+### 2. **Portabilidad y Despliegue Fácil** 🚀
+   - Todo en un archivo: fácil de copiar o versionar en Git. Sin dependencias externas.
+   - Perfecto para despliegue en Heroku, Railway o local, sin configurar un DB server.
+
+### 3. **Rendimiento para Cargas Pequeñas** 📈
+   - Para pocos usuarios (como esta API), es **rápido y eficiente**. Maneja lecturas/escrituras concurrentes básicas.
+   - **ACID compliant**: garantiza integridad (Atomicidad, Consistencia, Aislamiento, Durabilidad).
+
+### 4. **Integración Nativa con Python** 🐍
+   - Incluido en Python estándar (`import sqlite3`), sin librerías extras.
+   - ORM opcional: usa SQLAlchemy si crece, pero queries directas bastan aquí.
+
+### 5. **Bajo Overhead** ⚡
+   - No consume recursos como un DB server. Útil para apps embebidas o bajo tráfico.
+   - **Tamaño pequeño**: el archivo DB crece solo con datos.
