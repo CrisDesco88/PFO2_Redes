@@ -35,6 +35,18 @@ def test_registro_datos_faltantes(client):
     data = response.get_json()
     assert 'error' in data
 
+def test_registro_campos_vacios(client):
+    response = client.post('/registro', json={'usuario': '', 'contraseña': '123'})
+    assert response.status_code == 400
+    data = response.get_json()
+    assert 'error' in data
+    assert 'no pueden estar vacíos' in data['error']
+
+    response = client.post('/registro', json={'usuario': 'test', 'contraseña': ''})
+    assert response.status_code == 400
+    data = response.get_json()
+    assert 'error' in data
+
 def test_login_exitoso(client):
     client.post('/registro', json={'usuario': 'testuser', 'contraseña': 'testpass'})
     response = client.post('/login', json={'usuario': 'testuser', 'contraseña': 'testpass'})

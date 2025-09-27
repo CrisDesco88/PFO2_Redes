@@ -3,10 +3,11 @@ import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+app.config['DATABASE'] = 'usuarios.db'
 
 # Función para conectar a la base de datos
 def get_db_connection():
-    conn = sqlite3.connect('usuarios.db')
+    conn = sqlite3.connect(app.config['DATABASE'])
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -29,6 +30,10 @@ def registro():
 
     usuario = data['usuario']
     contraseña = data['contraseña']
+
+    # Validar que no estén vacíos
+    if not usuario.strip() or not contraseña.strip():
+        return jsonify({'error': 'Usuario y contraseña no pueden estar vacíos'}), 400
 
     # Hashear la contraseña
     contraseña_hash = generate_password_hash(contraseña)
